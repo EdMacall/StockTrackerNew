@@ -1,0 +1,48 @@
+<h2 ><!-- Detail Data for -->{{controller.stock.name}}</h2>
+
+<!--Card-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 cards">
+            <div class="but-lab-marg">
+                <label class="left-label">Ticker Symbol: </label><label class="right-label">{{controller.stock.tickerSymbol}}</label>
+            </div>
+            <!-- <div class="but-lab-marg">
+                <label style="width: 50px;">Name: </label><label >{{controller.stock.name}}</label>
+            </div> -->
+
+            <div class="but-lab-marg">
+                <label class="left-label">Last Price: </label><label class="right-label">{{controller.stock.lastPrice | currency:"$"}}</label>
+            </div>
+            <div class="but-lab-marg">
+                <label class="left-label">Today's Open: </label><label class="right-label">{{controller.stock.todayOpen | currency:"$"}}</label>
+            </div>
+            <div class="but-lab-marg">
+                <label class="left-label">Today's High: </label><label class="right-label">{{controller.stock.todayHigh | currency:"$"}}</label>
+            </div>
+            <div class="but-lab-marg">
+                <label class="left-label">Today's Low: </label><label class="right-label">{{controller.stock.todayLow | currency:"$"}}</label>
+            </div>
+            <div class="but-lab-marg">
+                <label class="left-label">Last Close: </label><label class="right-label">{{controller.stock.lastClose | currency:"$"}}</label>
+            </div>
+            <div class="but-lab-marg">
+                <label class="left-label">Volume: </label><label class="right-label">{{controller.stock.volume | number:0}}</label>
+            </div>
+            <div class="but-lab-marg">
+                <label class="left-label">Last Updated: </label><label class="right-label">{{controller.stock.lastUpdated | date:'medium'}}</label>
+            </div>
+            <div class="but-lab-marg">
+                <input type="button" ng-click="controller.updateData()" value="Update Prices" />
+            </div>
+            <!-- <div>
+                <label>Following: <button type="button" class="btn btn-sm">
+                    <span class="glyphicon" ng-class="controller.stock.follow ? 'glyphicon-check' : 'glyphicon-unchecked'"></span>
+                </button></label>
+            </div> -->
+        </div>
+        <div class="col-sm-4 cards">
+            <img class="img-thumbnail" ng-src="{{controller.stock.imageURL}}" alt="Card image cap" style="height:200px; width:300px; ">
+            </div>
+            </div>
+        </div>

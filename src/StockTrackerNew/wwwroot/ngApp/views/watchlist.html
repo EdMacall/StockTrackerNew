@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-sm-4 cards">
+            <h2>{{controller.watchlist.name}}</h2>
+        </div> -->
+
+        <div class="input-group col-sm-8 cards center-block pull-left">
+            <input type="text" class="search-query form-control" style="max-width: 600px;" placeholder="Search" ng-model="controller.searchstring" />
+                <span class="btn btn-default" type="submit">
+                    <label class="fa fa-search"></label>
+                </span>
+        </div>
+
+        <div  class="col-sm-4 cards pull-left">
+            <input type="button" class="input-group" ng-click="controller.stocksAddWatchList(controller.watchlist.id)" value="Add a Stock" /> <!-- ui-sref="/stocksadd/watchlist/:id" -->
+        </div>
+
+    </div>
+</div>
+
+<br />
+<br />
+
+<!--Card-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 cards" ng-repeat="stock in controller.watchlist.stocks | orderBy: 'tickerSymbol' | filter:{tickerSymbol:controller.searchstring}">
+            <a href="/stock/{{stock.id}}">
+                <!--  -->
+                <h4 class="card-ticker"> {{stock.tickerSymbol}}</h4>
+                <p class="card-title"> {{stock.name}}</p>
+                <img class="img-thumbnail" ng-src="{{stock.imageURL}}" alt="Card image cap"
+                     style="height:200px; width:300px; ">
+                <p class="card-text">{{stock.description}}</p>
+            </a>
+            <label class="fa fa-trash-o" ng-click="controller.removeFromList(stock.id)"></label>
+        </div>
+    </div>
+</div>

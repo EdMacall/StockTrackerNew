@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="StockTrackerNew">
+<head>
+    <title>StockTrackerNew</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <base href="/" />
+</head>
+<body ng-controller="AccountController as account">
+    <div class="container">
+
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">Stock Tracker</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="/">Home</a></li>
+                        <li ><a href="/watchlists">Watchlists</a></li>
+                        <!-- <li><a href="/stocks">Stocks</a></li> -->
+                        <li><a href="/about">About</a></li>
+                        <!-- <li ng-show="account.isLoggedIn()"><a href="/secret">Secrets</a></li> -->
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ng-show="!account.isLoggedIn()"><a href="/register">Register</a></li>
+                        <li>
+                            <a ng-show="!account.isLoggedIn()" href="/login">
+                                <span class="glyphicon glyphicon-log-in"></span> Login </a>
+                        </li>
+                        <li class="dropdown">
+
+                            <div ng-show="account.isLoggedIn()" class="nav-dropdown dropdown-toggle"  id="dropdownMenu1"
+                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#" > <!-- ng-click="account.logout()" -->
+                                <span class="glyphicon glyphicon-user"></span> [{{account.getUserName()}}] <span class="caret"></span>
+                            </div>
+                         
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">Edit Profile</a></li>
+                                <li><a href="#">Settings</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a ng-show="account.isLoggedIn()" href="#" ng-click="account.logout()">
+                                        <span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+
+            <!-- <h1>StockTrackerNew</h1>
+        <div>
+           <a href="/">Home</a> /
+           <a href="/about">About</a> /
+
+           <a href="/secret">Secret</a> /
+           <a href="/login" ng-show="!account.isLoggedIn()">Login /</a>
+           <a href="/register" ng-show="!account.isLoggedIn()">Register</a>
+           <a ng-show="account.isLoggedIn()">[{{account.getUserName()}}] /</a>
+           <a href="" ng-click="account.logout()" ng-show="account.isLoggedIn()">Logout</a>
+        </div>
+        <hr />-->
+
+            <ui-view></ui-view>
+        </div>
+
+    <!-- Library Files -->
+    <script src="~/lib/angular/angular.js"></script>
+    <script src="~/lib/angular-resource/angular-resource.js"></script>
+    <script src="~/lib/angular-animate/angular-animate.js"></script>
+    <script src="~/lib/angular-touch/angular-touch.js"></script>
+    <script src="~/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
+
+    <!-- App Files-->
+    <script src="~/ngapp/app.js"></script>
+    <script src="~/ngapp/controllers/controllers.js"></script>
+    <script src="~/ngapp/services/services.js"></script>
+
+
+    <!-- Security -->
+    <script src="~/ngapp/controllers/accountcontroller.js"></script>
+    <script src="~/ngapp/services/accountservice.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js" type="text/javascript" ></script>
+    <!-- <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+             integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/dropdown.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> -->
+</body>
+</html>

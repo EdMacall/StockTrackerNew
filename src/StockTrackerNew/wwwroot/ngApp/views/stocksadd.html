@@ -1,0 +1,78 @@
+<h2>{{controller.pagetitle}}</h2>
+<form ng-submit="controller.saveStock()">
+
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.tickerSymbol" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.tickerSymbol" placeholder="Ticker Symbol" />
+    </div>
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.name" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.name" placeholder="Name" />
+    </div>
+
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.lastPrice" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.lastPrice | currency:$" placeholder="Last Price" />
+    </div>
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.todayOpen" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.todayOpen | currency:$" placeholder="Today's Open" />
+    </div>
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.todayHigh" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.todayHigh | currency:$" placeholder="Today's High" />
+    </div>
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.todayLow" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.todayLow | currency:$" placeholder="Today's Low" />
+    </div>
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.LastClose" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.lastClose | currency:$" placeholder="Last Close" />
+    </div>
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.volume" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.volume | number:0" placeholder="Volume" />
+    </div>
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.lastUpdated" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.stock.lastUpdated | date:'medium'" placeholder="Last Updated" />
+    </div>
+   <!-- <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.follow" style="color:red;">
+            {{error}}
+        </div>
+        <label>Following: <button type="button" class="btn btn-sm" ng-click="controller.markCheck(controller.stock)">
+                <span class="glyphicon" ng-class="controller.stock.follow ? 'glyphicon-check' : 'glyphicon-unchecked'"></span>
+            </button></label>
+</div> -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 cards but-lab-marg">
+                <input type="submit" value="Save Stock" />
+
+                <input type="button" ng-click="controller.updateData()" value="Update Prices" />
+            </div>
+
+            </div>
+        </div>
+</form>

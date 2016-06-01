@@ -1,0 +1,20 @@
+<h2>{{controller.pagetitle}}</h2>
+<form ng-submit="controller.saveWatchList()">
+
+   
+    <div class="but-lab-marg">
+        <div ng-repeat="error in controller.errors.name" style="color:red;">
+            {{error}}
+        </div>
+        <input ng-model="controller.watchlist.name" placeholder="Name" />
+    </div>
+
+    <div class="container ">
+        <div class="row">
+            <div class="col-sm-4 cards but-lab-marg">
+                <input type="submit" value="Save WatchList" />
+            </div>
+
+        </div>
+    </div>
+</form>

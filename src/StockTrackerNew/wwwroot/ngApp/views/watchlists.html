@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-sm-4 cards">
+            <h2>Watch Lists</h2>
+        </div> -->
+        <div class="input-group col-sm-8 cards center-block pull-left" >
+            <input type="text" class="search-query form-control" style="max-width: 450px;" placeholder="Search" ng-model="controller.searchstring" />
+                <span class="btn btn-default" type="submit">
+                    <label class="fa fa-search"></label>
+                </span>
+        </div>
+        <div class="col-sm-4 cards pull-left">
+            <input type="button" class="input-group" ui-sref="watchlistadd" value="Add a WatchList" />
+        </div>
+        </div>
+    </div>
+
+<br />
+<br />
+
+            <!--Card-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 cards" ng-repeat="watchlist in controller.watchlists | orderBy: 'id' | filter:{name:controller.searchstring}">
+            <a href="/watchlist/{{watchlist.id}}">
+                <!--  -->
+                <h4 class="card-title">{{watchlist.name}}</h4>
+ 
+                <img class="img-thumbnail" ng-src="{{watchlist.imageURL}}" alt="Card image cap" style="height:200px; width:300px" />
+                <p class="card-text">{{watchlist.description}}</p>
+            </a>
+            <label class="fa fa-trash-o" ng-click="controller.removeFromList(watchlist.id)"></label>
+        </div>
+        
+    </div>
+</div>

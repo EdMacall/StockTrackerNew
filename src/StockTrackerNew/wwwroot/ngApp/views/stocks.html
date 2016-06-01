@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="row">
+        <!--<div  class="col-sm-4 cards">
+            <div>
+                <h2>Stock Lists</h2>
+            </div>
+        </div> -->
+        <div class="input-group col-sm-8 cards center-block pull-left">
+            <input type="text" class="search-query form-control" style="max-width:600px;" placeholder="Search" ng-model="controller.searchstring" />
+                <span class="btn btn-default" type="submit">
+                    <label class="fa fa-search"></label>
+                </span>
+        </div>
+        <div class="col-sm-4 cards pull-left">
+            <input type="button" class="input-group" ui-sref="stocksadd" value="Add a Stock" />
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+<!--Card-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 cards" ng-repeat="stock in controller.stocks | orderBy: 'tickerSymbol' | filter:{tickerSymbol:controller.searchstring}">
+            <a href="/stock/{{stock.id}}" > <!--  -->
+                <h4 class="card-ticker"> {{stock.tickerSymbol}}</h4>
+                <p class="card-title"> {{stock.name}}</p>
+                <img class="img-thumbnail" ng-src="{{stock.imageURL}}" alt="Card image cap"
+                      style="height:200px; width:300px; ">
+                <p class="card-text">{{stock.description}}</p>
+            </a>
+        </div>
+    </div>
+</div>
