@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
@@ -14,10 +15,21 @@ using StockTrackerNew.Services;
 using Newtonsoft.Json.Serialization;
 using StockTrackerNew.Infrastructure;
 
+
 namespace StockTrackerNew
 {
     public class Startup
     {
+        public static AutoResetEvent autoEvent;
+
+        StatusChecker statusChecker;
+
+        StockService stockService;
+
+        public static TimerCallback tcb;
+
+        public static System.Threading.Timer timer;
+
         public Startup(IHostingEnvironment env)
         {
             // Set up configuration sources.
@@ -33,6 +45,7 @@ namespace StockTrackerNew
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
         }
 
         public IConfigurationRoot Configuration { get; set; }
@@ -137,10 +150,32 @@ namespace StockTrackerNew
 
             // initialize sample data
             SampleData.Initialize(app.ApplicationServices).Wait();
+            // System.Timers.Timer timer = new System.Timers.Timer(3000);
 
+            /*
+            TimerCallback tcb = new TimerCallback((e) =>
+            {
+                string text = "text";
+                Console.WriteLine(text);
+            });
+            */
+
+            autoEvent = new AutoResetEvent(false);
+
+            // statusChecker = new StatusChecker(10);
+
+            stockService = app.ApplicationServices.GetService<StockService>();
+
+            // Create an inferred delegate that invokes methods for the timer.
+            // TimerCallback tcb = statusChecker.CheckStatus;
+            TimerCallback tcb = stockService.UpdateStocks;
+
+            timer = new System.Threading.Timer(tcb, autoEvent, 30000, 10000);
         }
 
         // Entry point for the application.
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
+
+
 }

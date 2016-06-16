@@ -25,12 +25,16 @@
     <div class="row">
         <div class="col-sm-4 cards" ng-repeat="stock in controller.stocks | orderBy: 'tickerSymbol' | filter:{tickerSymbol:controller.searchstring}">
             <a href="/stock/{{stock.id}}" > <!--  -->
-                <h4 class="card-ticker"> {{stock.tickerSymbol}}</h4>
-                <p class="card-title"> {{stock.name}}</p>
-                <img class="img-thumbnail" ng-src="{{stock.imageURL}}" alt="Card image cap"
-                      style="height:200px; width:300px; ">
-                <p class="card-text">{{stock.description}}</p>
-            </a>
+                <h4 class="card-ticker"> {{stock.tickerSymbol}}<label class="right-label">{{stock.lastPrice | currency:"$"}}</label></h4>
+
+    <p class="card-title">{{stock.name}}  {{(stock.lastPrice - stock.lastClose) | currency:"$"}}
+         <img ng-show="!((stock.lastPrice - stock.lastClose) < 0)" src="../../images/up_g.gif" />
+         <img ng-show="((stock.lastPrice - stock.lastClose) < 0)" src="../../images/down_r.gif" />
+    </p>
+    <img class="img-thumbnail" ng-src="{{stock.imageURL}}" alt="Card image cap"
+         style="height:200px; width:300px; ">
+    <p class="card-text">{{stock.description}}</p>
+</a>
         </div>
     </div>
 </div>

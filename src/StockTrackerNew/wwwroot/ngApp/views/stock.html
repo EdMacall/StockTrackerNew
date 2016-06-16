@@ -15,6 +15,13 @@
                 <label class="left-label">Last Price: </label><label class="right-label">{{controller.stock.lastPrice | currency:"$"}}</label>
             </div>
             <div class="but-lab-marg">
+                <label class="left-label">Change: </label>
+                <!-- <img src=(((stock.lastPrice - stock.lastClose) < 0) ? "../../images/down_r.gif" : "../../images/up_g.gif") /> -->
+                <label class="right-label">{{(controller.stock.lastPrice - controller.stock.lastClose) | currency:"$"}}
+                <img ng-show="!((stock.lastPrice - stock.lastClose) < 0)" src="../../images/up_g.gif" />
+                <img ng-show="((stock.lastPrice - stock.lastClose) < 0)" src="../../images/down_r.gif" /></label>
+            </div>
+            <div class="but-lab-marg">
                 <label class="left-label">Today's Open: </label><label class="right-label">{{controller.stock.todayOpen | currency:"$"}}</label>
             </div>
             <div class="but-lab-marg">
@@ -32,17 +39,25 @@
             <div class="but-lab-marg">
                 <label class="left-label">Last Updated: </label><label class="right-label">{{controller.stock.lastUpdated | date:'medium'}}</label>
             </div>
-            <div class="but-lab-marg">
-                <input type="button" ng-click="controller.updateData()" value="Update Prices" />
+            <div>
+                <label>
+                    Following: <button type="button" class="btn btn-sm" ng-click="controller.changeFollowing()">
+                        <span class="glyphicon" ng-class="controller.stock.follow ? 'glyphicon-check' : 'glyphicon-unchecked'"></span>
+                    </button>
+                </label>
             </div>
-            <!-- <div>
-                <label>Following: <button type="button" class="btn btn-sm">
-                    <span class="glyphicon" ng-class="controller.stock.follow ? 'glyphicon-check' : 'glyphicon-unchecked'"></span>
-                </button></label>
-            </div> -->
+            <div class="but-lab-marg">
+                <input type="button" ng-hide="true" ng-click="controller.updateData()" value="Populate Prices" />
+            </div>
         </div>
         <div class="col-sm-4 cards">
             <img class="img-thumbnail" ng-src="{{controller.stock.imageURL}}" alt="Card image cap" style="height:200px; width:300px; ">
             </div>
             </div>
         </div>
+
+
+
+<!-- <script>
+    var myVar = setInterval(controller.updatePrices.bind(controller), 5000);
+    </script> -->

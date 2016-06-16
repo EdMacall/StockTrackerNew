@@ -33,6 +33,8 @@ namespace StockTrackerNew.Controllers {
             $http.get(`/api/stocks/${$stateParams['id']}`)
                 .then((response) => { this.stock = response.data; })
                 .catch((response) => { console.log(response); });
+
+            setInterval(this.updatePrices.bind(this), 5000);
         }
 
         public updateData(): void {
@@ -40,6 +42,29 @@ namespace StockTrackerNew.Controllers {
             this.$http.get(`/api/stocks/update/${this.stock.tickerSymbol}`)
                 .then((response) => { this.stock = response.data })
                 .catch((response) => { console.log('Whitney Houston,  we have a problem in the Stocks Update...'); });
+        }
+
+        public updatePrices(): void {
+            this.$http.get(`/api/stocks/${this.$stateParams['id']}`)
+                .then((response) => { this.stock = response.data; })
+                .catch((response) => { console.log(response); });
+        }
+
+        public changeFollowing(): void {
+            if (this.stock.follow == false) {
+                this.stock.follow = true;
+            }
+            else {
+                this.stock.follow = false;
+            }
+
+            this.$http.put(`/api/stocks/${this.$stateParams['id']}`, this.stock)
+                .then((response) => {
+                })
+                .catch((response) => {
+                this.errors = response.data;
+                    console.log('Whitney Houston,  we have a problem posting the stock data...');
+                });
         }
     }
 
@@ -49,8 +74,16 @@ namespace StockTrackerNew.Controllers {
         public stocks;
         public searchstring;
 
-        constructor($http: ng.IHttpService) {
+        constructor(private $http: ng.IHttpService) {
             $http.get('/api/stocks')
+                .then((results) => { this.stocks = results.data; })
+                .catch((response) => { console.log(response); });
+
+            setInterval(this.updatePrices.bind(this), 5000);
+        }
+
+        public updatePrices(): void {
+            this.$http.get('/api/stocks')
                 .then((results) => { this.stocks = results.data; });
         }
     }

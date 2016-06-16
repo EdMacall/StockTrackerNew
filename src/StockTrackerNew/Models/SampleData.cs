@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using StockTrackerNew.Infrastructure;
+using System.Threading;
 
 namespace StockTrackerNew.Models
 {
@@ -734,7 +735,19 @@ namespace StockTrackerNew.Models
                 }
             };
 
+
             AddOrUpdate(stocks, context, (s, db) => s.TickerSymbol == db.TickerSymbol);
+
+            /*
+            TimerCallback cb = new TimerCallback((e) =>
+            {
+                string text = "text";
+                Console.WriteLine(text);
+            });
+
+            System.Threading.Timer timer = new System.Threading.Timer(cb, null, 10000, 10000);
+            */
+
 
             var watchlists = new List<WatchList>() {
                 new WatchList
@@ -853,6 +866,8 @@ namespace StockTrackerNew.Models
             };
 
             AddOrUpdate(stockwatchlists, context, (swl, db) => swl.StockId == db.StockId && swl.WatchListId == db.WatchListId);
+
+
         }
 
         public static void AddOrUpdate<B>(IList<B> list, ApplicationDbContext db, Func<B, B, bool> func) where B : class

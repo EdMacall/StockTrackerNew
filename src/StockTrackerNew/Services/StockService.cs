@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StockTrackerNew.Services
@@ -127,7 +129,7 @@ namespace StockTrackerNew.Services
                 WillThrowOnMissingField = false
             }).GetRecords<StockDTO>().FirstOrDefault();
 
-            stockdto.LastUpdated = DateTime.Now;
+            // stockdto.LastUpdated = DateTime.Now;
 
             if(Exists(ticker))
             {
@@ -135,6 +137,65 @@ namespace StockTrackerNew.Services
             }
 
             return stockdto;
+        }
+
+        public void UpdateStocks(Object stateInfo)
+        {
+            AutoResetEvent autoEvent = (AutoResetEvent)stateInfo;
+            string csvData;
+            string ticker = "AAPL";
+
+            ICollection<string> stocks = (from s in _stockrepository.List()
+                                          where s.Follow == true
+                                          select s.TickerSymbol).ToList();
+
+            if (stocks == null || stocks.Count() == 0)
+            {
+                return;
+            }
+
+            // string URLString = "http://finance.yahoo.com/d/quotes.csv?s=" + ticker + "&f=snbaopl1ghv";
+
+            bool first = true;
+
+            StringBuilder sb = new StringBuilder("http://finance.yahoo.com/d/quotes.csv?s=");
+
+            foreach(string stock in stocks)
+            {
+                if (first)
+                {
+                    sb.Append(stock);
+                    first = false;
+                }
+                else
+                {
+                    sb.Append("+" + stock);
+                }
+            }
+
+            sb.Append("&f=snbaopl1ghv");
+
+            string URLString = sb.ToString();
+
+            using (HttpClient web = new HttpClient())
+            {
+                csvData = web.GetStringAsync(URLString).Result;
+            }
+
+            csvData = "TickerSymbol,Name,Bid,Ask,TodayOpen,LastClose,LastPrice,TodayLow,TodayHigh,Volume\n" + csvData;
+
+            // Numbers with N/A result cause the program to crash here...
+            ICollection<StockDTO> stockdtos = new CsvReader(new StringReader(csvData), new CsvConfiguration()
+            {
+                WillThrowOnMissingField = false
+            }).GetRecords<StockDTO>().ToList();
+
+            if (Exists(ticker))
+            {
+                UpdateStocks(stockdtos);
+            }
+
+            // return stockdto;
         }
 
         public void UpdateStock(StockDTO stockdto)
@@ -148,9 +209,30 @@ namespace StockTrackerNew.Services
             dbStock.TodayLow = stockdto.TodayLow;
             dbStock.LastClose = stockdto.LastClose;
             dbStock.Volume = stockdto.Volume;
-            dbStock.LastUpdated = stockdto.LastUpdated;
+            dbStock.LastUpdated = stockdto.LastUpdated = DateTime.Now; ;
 
             _stockrepository.SaveChanges();
+        }
+
+        public void UpdateStocks(ICollection<StockDTO> stockdtos)
+        {
+            Stock dbStock;
+
+            foreach (var stockdto in stockdtos)
+            {
+                dbStock = _stockrepository.List().First(s => s.TickerSymbol == stockdto.TickerSymbol);
+
+                dbStock.Name = stockdto.Name;
+                dbStock.LastPrice = stockdto.LastPrice;
+                dbStock.TodayOpen = stockdto.TodayOpen;
+                dbStock.TodayHigh = stockdto.TodayHigh;
+                dbStock.TodayLow = stockdto.TodayLow;
+                dbStock.LastClose = stockdto.LastClose;
+                dbStock.Volume = stockdto.Volume;
+                dbStock.LastUpdated = stockdto.LastUpdated = DateTime.Now;
+
+                _stockrepository.SaveChanges();
+            }
         }
 
         public bool Exists(string tickersymbol)
